@@ -28,8 +28,8 @@ Built for ease of use — just **drag, drop, and get a clean isolated image** in
 1. **Clone the Repository**
 
 ```bash
-git clone https://github.com/your-username/imageisolate.git
-cd imageisolate
+git clone https://github.com/rafay99-epic/ImageIsolate.git
+cd ImageIsolate
 ```
 
 2. **Install Dependencies**
