@@ -1,0 +1,34 @@
+# Dockerfile
+
+# Use an official Python runtime as a parent image
+# Using a specific version is good practice for reproducibility
+FROM python:3.10-slim
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1  # Prevents python from writing pyc files
+ENV PYTHONUNBUFFERED 1       # Prevents python from buffering stdout/stderr
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Install system dependencies if needed (uncomment if rembg or dependencies require them)
+# RUN apt-get update && apt-get install -y --no-install-recommends some-package && rm -rf /var/lib/apt/lists/*
+
+# Copy the requirements file into the container
+COPY requirements.txt .
+
+# Install Python dependencies
+# --no-cache-dir reduces image size
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of your application code (app.py and templates folder) into the container
+COPY . .
+# This assumes your 'templates' folder is in the same directory as the Dockerfile
+
+# Expose the port the app runs on (must match the port Gunicorn will bind to)
+EXPOSE 5100
+
+# Command to run the application using Gunicorn
+# 'app:app' means: find the 'app' object (Flask instance) inside the 'app.py' file.
+# Bind to 0.0.0.0 so it's accessible from outside the container.
+CMD ["gunicorn", "--bind", "0.0.0.0:5100", "app:app"]
